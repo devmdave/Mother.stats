@@ -12,31 +12,48 @@
   --font-instrument: var(--font-instrument), ui-serif, Georgia, serif;
 }
 
-html {
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* ─── Production-safe base resets ──────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-:root {
-  --background: #070707;
-  --foreground: #F6EDEE;
+html {
+  scroll-behavior: smooth;
+  /* Prevent mobile browser chrome resize from causing layout jumps */
+  height: -webkit-fill-available;
+  /* Stable font rendering across environments */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* Hard stop on horizontal overflow at the root */
+  overflow-x: hidden;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  /* Use dvh so mobile browser chrome doesn't cause clipping */
+  min-height: 100dvh;
+  min-height: -webkit-fill-available; /* Safari fallback */
+  overflow-x: hidden;
   overscroll-behavior-y: none;
+  /* Prevent iOS tap highlight */
+  -webkit-tap-highlight-color: transparent;
+  /* Stable word breaks */
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
-/* Background grain effect - highly optimized */
+/* ─── Background grain effect ───────────────────────────────────────────── */
 .bg-grain {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
   z-index: 50;
   opacity: 0.02;
@@ -45,41 +62,64 @@ body {
   transform: translateZ(0);
 }
 
-/* Performance-focused animations (NO BLUR, ONLY OPACITY/TRANSFORM) */
+/* ─── Performance animations (NO BLUR, ONLY OPACITY/TRANSFORM) ──────────── */
 @keyframes fade-in {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fade-in-slow {
   from { opacity: 0; }
-  to { opacity: 1; }
+  to   { opacity: 1; }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { opacity: 0.15; transform: scale(1); }
-  50% { opacity: 0.25; transform: scale(1.02); }
+  0%, 100% { opacity: 0.15; transform: scale(1) translateZ(0); }
+  50%       { opacity: 0.25; transform: scale(1.02) translateZ(0); }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
+  0%, 100% { transform: translateY(0) translateZ(0); }
+  50%       { transform: translateY(-12px) translateZ(0); }
 }
 
+@keyframes slide-up-fade {
+  0%   { opacity: 0; transform: translateY(24px) translateZ(0); }
+  100% { opacity: 1; transform: translateY(0) translateZ(0); }
+}
+
+/* ─── Utility classes ────────────────────────────────────────────────────── */
 .animate-fade-in {
-  animation: fade-in 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation: fade-in 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   opacity: 0;
-  will-change: transform, opacity;
 }
 
 .animate-fade-in-slow {
   animation: fade-in-slow 1.5s ease-out forwards;
   opacity: 0;
-  will-change: opacity;
 }
 
+.animate-slide-up-fade {
+  animation: slide-up-fade 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* GPU compositing layer — use sparingly */
 .hw-accel {
-  will-change: transform, opacity;
   transform: translateZ(0);
   backface-visibility: hidden;
+}
+
+/* ─── Safe number input ───────────────────────────────────────────────────── */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] { -moz-appearance: textfield; }
+
+/* ─── Print styles ───────────────────────────────────────────────────────── */
+@media print {
+  button { display: none !important; }
+  .bg-grain { display: none !important; }
+  body { background: #070707 !important; -webkit-print-color-adjust: exact; }
 }
