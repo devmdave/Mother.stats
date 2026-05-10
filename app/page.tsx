@@ -16,12 +16,12 @@ const LOADING_MSGS = [
 // ─── component ────────────────────────────────────────────────────────────
 export default function Home() {
   const [appState, setAppState] = useState<"intro" | "form" | "generating" | "report">("intro");
-  const [ageStr, setAgeStr]     = useState("");
+  const [ageStr, setAgeStr] = useState("");
   const [loadingIdx, setLoadingIdx] = useState(0);
-  const [metrics, setMetrics]   = useState<MaternalMetrics | null>(null);
+  const [metrics, setMetrics] = useState<MaternalMetrics | null>(null);
 
   // Export state
-  const exportRef      = useRef<HTMLDivElement>(null);
+  const exportRef = useRef<HTMLDivElement>(null);
   const [isExporting, setIsExporting] = useState(false);
   const [exportVisible, setExportVisible] = useState(false); // mount before capture
 
@@ -117,25 +117,24 @@ export default function Home() {
   // `highlight` — full-width card, large but secondary
   const stats = metrics
     ? [
-        { value: metrics.cookingYears.toLocaleString(),       label: "Years of Cooking",   subtitle: "An entire life season, quietly given.",           climax: true },
-        { value: metrics.totalCareHours.toLocaleString(),     label: "Total Care Hours",   subtitle: "The invisible shift that never ends.",            highlight: true },
-        { value: metrics.mealsPrepared.toLocaleString(),      label: "Meals Prepared",     subtitle: "Across two decades of mornings and nights." },
-        { value: metrics.hoursSpentCooking.toLocaleString(),  label: "Hours Cooking",      subtitle: "Standing quietly at the stove." },
-        { value: metrics.kitchenDays.toLocaleString(),        label: "Kitchen Days",       subtitle: "Time measured entirely in recipes." },
-        { value: metrics.lunchesPacked.toLocaleString(),      label: "Lunchboxes Packed",  subtitle: "Notes folded before the sun rose." },
-        { value: metrics.schoolPickupsDrops.toLocaleString(), label: "School Trips",       subtitle: "Waiting faithfully in the car line." },
-        { value: metrics.clothesWashed.toLocaleString(),      label: "Laundry Loads",      subtitle: "Washing, folding, repeating." },
-        { value: metrics.groceryTrips.toLocaleString(),       label: "Grocery Trips",      subtitle: "Carrying the weight of the week." },
-        { value: metrics.teaCups.toLocaleString(),            label: "Cups of Tea",        subtitle: "Quiet moments of warmth shared." },
-      ]
+      { value: metrics.cookingYears.toLocaleString(), label: "Years of Cooking", subtitle: "An entire life season, quietly given.", climax: true },
+      { value: metrics.totalCareHours.toLocaleString(), label: "Total Care Hours", subtitle: "The invisible shift that never ends.", highlight: true },
+      { value: metrics.mealsPrepared.toLocaleString(), label: "Meals Prepared", subtitle: "Across two decades of mornings and nights." },
+      { value: metrics.hoursSpentCooking.toLocaleString(), label: "Hours Cooking", subtitle: "Standing quietly at the stove." },
+      { value: metrics.kitchenDays.toLocaleString(), label: "Kitchen Days", subtitle: "Time measured entirely in recipes." },
+      { value: metrics.lunchesPacked.toLocaleString(), label: "Lunchboxes Packed", subtitle: "Notes folded before the sun rose." },
+      { value: metrics.schoolPickupsDrops.toLocaleString(), label: "School Trips", subtitle: "Waiting faithfully in the car line." },
+      { value: metrics.clothesWashed.toLocaleString(), label: "Laundry Loads", subtitle: "Washing, folding, repeating." },
+      { value: metrics.groceryTrips.toLocaleString(), label: "Grocery Trips", subtitle: "Carrying the weight of the week." },
+      { value: metrics.teaCups.toLocaleString(), label: "Cups of Tea", subtitle: "Quiet moments of warmth shared." },
+    ]
     : [];
 
   // ─────────────────────────────────────────────────────────────────────
   return (
     <main
-      className={`relative min-h-screen w-full flex flex-col items-center justify-center overflow-x-hidden bg-[#070707] selection:bg-[#D4A5A5]/20 selection:text-[#F6EDEE] ${
-        appState === "report" ? "" : "overflow-hidden"
-      }`}
+      className={`relative min-h-screen w-full flex flex-col items-center justify-center overflow-x-hidden bg-[#070707] selection:bg-[#D4A5A5]/20 selection:text-[#F6EDEE] ${appState === "report" ? "" : "overflow-hidden"
+        }`}
     >
       {/* ── Off-screen export mount point ─────────────────────────────
            Rendered OUTSIDE the visible viewport. Position fixed + very
@@ -177,7 +176,7 @@ export default function Home() {
           <div className="animate-fade-in-slow mb-20 sm:mb-28 flex items-center gap-6 hw-accel">
             <div className="h-[1px] w-16 bg-[#8E6A6A]/30" />
             <span className="text-[#D4A5A5]/80 uppercase tracking-[0.4em] text-xs font-medium font-sans">
-              System Online
+              Emotional Mathematics
             </span>
             <div className="h-[1px] w-16 bg-[#8E6A6A]/30" />
           </div>
@@ -197,7 +196,7 @@ export default function Home() {
             className="animate-fade-in-slow mt-8 sm:mt-10 text-base sm:text-lg text-[#F6EDEE]/50 font-sans max-w-lg text-center leading-loose tracking-wide font-light hw-accel"
             style={{ animationDelay: "500ms" }}
           >
-            A premium emotional data experience. Analyzing quiet sacrifices and infinite patience.
+            A emotional math experience. Analyzing quiet sacrifices and infinite patience.
           </p>
 
           <div
@@ -213,6 +212,22 @@ export default function Home() {
               <div className="w-1.5 h-1.5 rounded-full bg-[#8E6A6A]/50 md:group-hover:bg-[#D4A5A5] transition-colors duration-500" />
             </button>
           </div>
+          {/* ── Quiet signature — landing page ── */}
+          <a
+            href="https://github.com/devmdave"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="animate-fade-in-slow fixed bottom-8 md:bottom-12 right-8 md:right-12 z-50 group hw-accel flex flex-col items-end gap-1"
+            style={{ animationDelay: "1200ms" }}
+          >
+            <div className="absolute -inset-8 bg-[radial-gradient(ellipse,rgba(212,165,165,0.08)_0%,transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none -z-10" />
+            <span className="text-[#F2DCDC]/40 group-hover:text-[#F2DCDC]/90 transition-colors duration-700 text-xs sm:text-sm tracking-widest uppercase font-syne font-medium drop-shadow-sm">
+              Made by Madhav Dave
+            </span>
+            <span className="text-[#D4A5A5]/60 group-hover:text-[#D4A5A5] transition-colors duration-700 text-base sm:text-lg tracking-wide font-instrument drop-shadow-md">
+              aka devmdave
+            </span>
+          </a>
         </div>
       )}
 
@@ -249,13 +264,12 @@ export default function Home() {
           <div className="mt-24 hw-accel">
             <button
               onClick={handleGenerate}
-              className={`px-12 py-5 bg-transparent border rounded-full transition-colors duration-500 text-[10px] sm:text-xs tracking-[0.3em] uppercase font-sans font-medium cursor-pointer ${
-                ageStr
-                  ? "border-[#D4A5A5]/40 md:hover:border-[#D4A5A5]/80 md:hover:bg-[#D4A5A5]/5 text-[#F6EDEE]"
-                  : "border-[#8E6A6A]/20 text-[#8E6A6A]/50 md:hover:border-[#8E6A6A]/40"
-              }`}
+              className={`px-12 py-5 bg-transparent border rounded-full transition-colors duration-500 text-[10px] sm:text-xs tracking-[0.3em] uppercase font-sans font-medium cursor-pointer ${ageStr
+                ? "border-[#D4A5A5]/40 md:hover:border-[#D4A5A5]/80 md:hover:bg-[#D4A5A5]/5 text-[#F6EDEE]"
+                : "border-[#8E6A6A]/20 text-[#8E6A6A]/50 md:hover:border-[#8E6A6A]/40"
+                }`}
             >
-              Generate Statistics
+              See the Maternal Math
             </button>
           </div>
         </div>
@@ -301,18 +315,17 @@ export default function Home() {
           {/* Stats grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-14 lg:gap-20 w-full max-w-[90rem] mx-auto px-6 md:px-12 mb-40">
             {stats.map((stat, idx) => {
-              const isClimax    = !!(stat as any).climax;
+              const isClimax = !!(stat as any).climax;
               const isHighlight = !!(stat as any).highlight;
               return (
                 <div
                   key={idx}
-                  className={`animate-slide-up-fade opacity-0 flex flex-col items-center justify-center rounded-[2.5rem] transition-colors duration-500 group hw-accel ${
-                    isClimax
-                      ? "col-span-1 md:col-span-2 lg:col-span-3 py-28 sm:py-40 px-12 sm:px-20 bg-[#120808]/80 border border-[#D4A5A5]/20 md:hover:border-[#D4A5A5]/40"
-                      : isHighlight
+                  className={`animate-slide-up-fade opacity-0 flex flex-col items-center justify-center rounded-[2.5rem] transition-colors duration-500 group hw-accel ${isClimax
+                    ? "col-span-1 md:col-span-2 lg:col-span-3 py-28 sm:py-40 px-12 sm:px-20 bg-[#120808]/80 border border-[#D4A5A5]/20 md:hover:border-[#D4A5A5]/40"
+                    : isHighlight
                       ? "md:col-span-2 lg:col-span-3 py-20 sm:py-28 px-12 sm:px-20 bg-[#141010]/60 border border-[#8E6A6A]/10 md:hover:bg-[#141010]/90 md:hover:border-[#D4A5A5]/20"
                       : "p-10 sm:p-16 bg-[#141010]/60 border border-[#8E6A6A]/10 md:hover:bg-[#141010]/90 md:hover:border-[#D4A5A5]/20"
-                  }`}
+                    }`}
                   style={{
                     animationDelay: `${200 + idx * 100}ms`,
                     // Climax card gets a very subtle rose bloom shadow
@@ -332,31 +345,28 @@ export default function Home() {
                   )}
 
                   <h2
-                    className={`font-sans font-bold tracking-tighter leading-[0.85] mb-6 text-center transition-transform duration-700 ease-out md:group-hover:scale-[1.03] will-change-transform ${
-                      isClimax
-                        ? "text-[10rem] sm:text-[13rem] md:text-[16rem] lg:text-[18rem] text-[#D4A5A5]"
-                        : isHighlight
+                    className={`font-sans font-bold tracking-tighter leading-[0.85] mb-6 text-center transition-transform duration-700 ease-out md:group-hover:scale-[1.03] will-change-transform ${isClimax
+                      ? "text-[10rem] sm:text-[13rem] md:text-[16rem] lg:text-[18rem] text-[#D4A5A5]"
+                      : isHighlight
                         ? "text-8xl sm:text-9xl md:text-[11rem] lg:text-[13rem] text-transparent bg-clip-text bg-gradient-to-b from-[#F6EDEE] to-[#8E6A6A]/70"
                         : "text-6xl sm:text-7xl lg:text-8xl text-transparent bg-clip-text bg-gradient-to-b from-[#F6EDEE] to-[#8E6A6A]/70"
-                    }`}
+                      }`}
                   >
                     {stat.value}
                   </h2>
                   <h3
-                    className={`tracking-[0.4em] uppercase font-sans font-medium mb-4 text-center ${
-                      isClimax
-                        ? "text-sm sm:text-base text-[#D4A5A5] opacity-100"
-                        : "text-xs sm:text-sm text-[#D4A5A5] opacity-90"
-                    }`}
+                    className={`tracking-[0.4em] uppercase font-sans font-medium mb-4 text-center ${isClimax
+                      ? "text-sm sm:text-base text-[#D4A5A5] opacity-100"
+                      : "text-xs sm:text-sm text-[#D4A5A5] opacity-90"
+                      }`}
                   >
                     {stat.label}
                   </h3>
                   <p
-                    className={`font-serif italic font-light text-center tracking-wide leading-relaxed ${
-                      isClimax
-                        ? "text-lg sm:text-xl text-[#8E6A6A] max-w-lg"
-                        : "text-base sm:text-lg text-[#8E6A6A]/90 max-w-sm"
-                    }`}
+                    className={`font-serif italic font-light text-center tracking-wide leading-relaxed ${isClimax
+                      ? "text-lg sm:text-xl text-[#8E6A6A] max-w-lg"
+                      : "text-base sm:text-lg text-[#8E6A6A]/90 max-w-sm"
+                      }`}
                   >
                     {stat.subtitle}
                   </p>
@@ -389,17 +399,36 @@ export default function Home() {
                 disabled={isExporting}
                 className="px-12 py-6 bg-[#D4A5A5]/10 border border-[#D4A5A5]/30 md:hover:bg-[#D4A5A5]/20 md:hover:border-[#D4A5A5]/50 text-[#F6EDEE] rounded-full transition-colors duration-500 text-[10px] sm:text-xs tracking-[0.3em] uppercase font-sans font-medium cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed min-w-[260px]"
               >
-                {isExporting ? "Rendering Story…" : "Download Story"}
+                {isExporting ? "Rendering Story…" : "SHARE THE STATS"}
               </button>
 
-          
+
             </div>
           </div>
+          {/* ── Report footer signature ── */}
+          <footer className="animate-slide-up-fade opacity-0 flex flex-col items-center gap-6 mt-32 pb-12 hw-accel" style={{ animationDelay: "1800ms" }}>
+            <div className="h-[1px] w-24 bg-[#8E6A6A]/20" />
+            <a
+              href="https://github.com/devmdave"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col items-center gap-1 relative"
+            >
+              <div className="absolute -inset-10 bg-[radial-gradient(ellipse,rgba(212,165,165,0.06)_0%,transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none -z-10" />
+              <span className="text-[#F2DCDC]/30 group-hover:text-[#F2DCDC]/80 transition-colors duration-700 text-[11px] sm:text-xs tracking-widest uppercase font-syne font-medium">
+                Made by Madhav Dave
+              </span>
+              <span className="text-[#D4A5A5]/50 group-hover:text-[#D4A5A5]/90 transition-colors duration-700 text-[15px] sm:text-base tracking-wide font-instrument">
+                aka devmdave
+              </span>
+            </a>
+          </footer>
         </div>
       )}
 
       {/* ── Global inline styles ────────────────────────────────────── */}
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes slide-up-fade {
           0%   { opacity: 0; transform: translateY(30px); }
           100% { opacity: 1; transform: translateY(0); }

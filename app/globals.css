@@ -8,6 +8,8 @@
   --color-rose-secondary: #8E6A6A;
   --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-cormorant), ui-serif, Georgia, serif;
+  --font-syne: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
+  --font-instrument: var(--font-instrument), ui-serif, Georgia, serif;
 }
 
 html {
