@@ -1,50 +1,28 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-
-const questions = [
-  { id: 'age', label: 'What is your current age?', type: 'number', placeholder: 'e.g. 28' },
-  { id: 'meals', label: 'Meals she cooked for you per day (avg)?', type: 'number', placeholder: 'e.g. 2' },
-  { id: 'laundry', label: 'Laundry loads she did per week?', type: 'number', placeholder: 'e.g. 3' },
-  { id: 'calls', label: 'Calls or check-ins per week now?', type: 'number', placeholder: 'e.g. 1' },
-  { id: 'schoolYears', label: 'Years she helped with schoolwork?', type: 'number', placeholder: 'e.g. 12' },
-  { id: 'favoriteDish', label: 'How often does she make your favorite dish per month?', type: 'number', placeholder: 'e.g. 2' },
-];
+import { calculateMaternalMetrics } from '../utils/calculations';
 
 const loadingMessages = [
-  "Calculating meals...",
-  "Analyzing years of repetition...",
+  "Calculating lifetime meals...",
+  "Estimating repeated routines...",
   "Rendering invisible effort...",
+  "Analyzing years of care...",
   "Generating maternal statistics..."
 ];
 
 export default function Home() {
   const [appState, setAppState] = useState<'intro' | 'form' | 'generating'>('intro');
-  const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState<Record<string, string>>({
-    age: '', meals: '', laundry: '', calls: '', schoolYears: '', favoriteDish: ''
-  });
+  const [ageStr, setAgeStr] = useState<string>('');
   const [loadingIndex, setLoadingIndex] = useState(0);
   
   // Transition logic
   const handleStart = () => setAppState('form');
   
-  const handleNext = () => {
-    if (currentStep < questions.length - 1) {
-      setCurrentStep(prev => prev + 1);
-    } else {
+  const handleGenerate = () => {
+    if (ageStr && parseInt(ageStr, 10) > 0) {
       setAppState('generating');
     }
-  };
-
-  const handleBack = () => {
-    if (currentStep > 0) {
-      setCurrentStep(prev => prev - 1);
-    }
-  };
-
-  const handleChange = (val: string) => {
-    setFormData(prev => ({ ...prev, [questions[currentStep].id]: val }));
   };
 
   // Loading message rotation
@@ -114,54 +92,44 @@ export default function Home() {
         </div>
       )}
 
-      {/* Form State */}
+      {/* Single Input Form State */}
       {appState === 'form' && (
-        <div key={currentStep} className="relative z-10 flex flex-col items-center justify-center w-full max-w-4xl px-6 sm:px-12 animate-fade-in" style={{ animationDuration: '0.8s' }}>
+        <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-4xl px-6 sm:px-12 animate-fade-in" style={{ animationDuration: '1s' }}>
           
-          {/* Progress Indicator */}
-          <div className="absolute top-12 left-1/2 -translate-x-1/2 flex items-center gap-3">
-            {questions.map((_, idx) => (
-              <div 
-                key={idx} 
-                className={`h-[2px] transition-all duration-700 ${idx <= currentStep ? 'w-8 bg-[#D4A5A5]/80 shadow-[0_0_8px_rgba(212,165,165,0.4)]' : 'w-4 bg-[#8E6A6A]/20'}`}
-              />
-            ))}
-          </div>
-
-          {/* Question Text */}
-          <h2 className="text-3xl sm:text-4xl md:text-5xl text-[#F6EDEE] font-serif font-light text-center mb-16 leading-tight max-w-2xl">
-            {questions[currentStep].label}
+          <h2 className="text-4xl sm:text-5xl md:text-6xl text-[#F6EDEE] font-serif font-light text-center mb-6 leading-tight max-w-2xl">
+            How old are you?
           </h2>
 
-          {/* Input Field */}
-          <div className="relative w-full max-w-md">
-            <div className="absolute -inset-1 bg-gradient-to-r from-[#D4A5A5]/0 via-[#D4A5A5]/5 to-[#D4A5A5]/0 rounded-2xl blur opacity-0 transition duration-700"></div>
+          <p className="text-sm sm:text-base text-[#8E6A6A] font-sans text-center mb-16 tracking-wide font-light">
+            We&apos;ll estimate the invisible numbers behind your mother&apos;s daily care.
+          </p>
+
+          <div className="relative w-full max-w-xs flex flex-col items-center group">
+            {/* Soft glowing ambient background that reveals on focus via CSS group */}
+            <div className="absolute -inset-4 bg-gradient-to-r from-[#D4A5A5]/0 via-[#D4A5A5]/10 to-[#D4A5A5]/0 rounded-3xl blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-1000"></div>
+            
             <input
               type="number"
-              value={formData[questions[currentStep].id]}
-              onChange={(e) => handleChange(e.target.value)}
-              onKeyDown={(e) => { if (e.key === 'Enter') handleNext() }}
+              value={ageStr}
+              onChange={(e) => setAgeStr(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') handleGenerate() }}
               autoFocus
-              placeholder={questions[currentStep].placeholder}
-              className="relative w-full bg-[#141010]/40 backdrop-blur-xl border border-[#8E6A6A]/20 rounded-2xl px-8 py-6 text-center text-3xl sm:text-4xl text-[#F6EDEE] focus:outline-none focus:border-[#D4A5A5]/50 focus:shadow-[0_0_20px_2px_rgba(212,165,165,0.1)] transition-all duration-500 placeholder:text-[#8E6A6A]/30 placeholder:font-sans font-sans"
+              placeholder="0"
+              className="relative w-full bg-transparent border-b border-[#8E6A6A]/30 pb-4 text-center text-6xl sm:text-7xl lg:text-8xl text-[#F6EDEE] focus:outline-none focus:border-[#D4A5A5] transition-all duration-700 placeholder:text-[#8E6A6A]/20 font-light font-sans z-10"
             />
+            
+            {/* Animated custom cursor/blink effect line */}
+            <div className="absolute bottom-0 w-1/3 h-[1px] bg-[#D4A5A5] scale-x-0 group-focus-within:scale-x-100 transition-transform duration-700 ease-out z-20"></div>
           </div>
 
-          {/* Controls */}
-          <div className="flex items-center gap-8 mt-20">
-            {currentStep > 0 && (
-              <button 
-                onClick={handleBack} 
-                className="text-[#8E6A6A] hover:text-[#D4A5A5] transition-colors text-xs tracking-[0.2em] uppercase font-sans font-light"
-              >
-                Back
-              </button>
-            )}
+          <div className="mt-20">
             <button 
-              onClick={handleNext}
-              className="px-8 py-4 bg-transparent border border-[#8E6A6A]/30 hover:border-[#D4A5A5]/60 hover:bg-[#D4A5A5]/5 text-[#F6EDEE]/90 hover:text-[#F6EDEE] hover:shadow-[0_0_15px_rgba(212,165,165,0.15)] rounded-full transition-all duration-500 text-xs tracking-[0.2em] uppercase font-sans font-light cursor-pointer"
+              onClick={handleGenerate}
+              className={`px-10 py-4 bg-transparent border rounded-full transition-all duration-700 text-xs tracking-[0.25em] uppercase font-sans font-light cursor-pointer
+                ${ageStr ? 'border-[#D4A5A5]/40 hover:border-[#D4A5A5]/80 hover:bg-[#D4A5A5]/5 text-[#F6EDEE] shadow-[0_0_20px_rgba(212,165,165,0.15)]' 
+                         : 'border-[#8E6A6A]/20 text-[#8E6A6A]/50 hover:border-[#8E6A6A]/40'}`}
             >
-              {currentStep === questions.length - 1 ? "Generate My Report" : "Next"}
+              Generate Statistics
             </button>
           </div>
         </div>
@@ -170,14 +138,14 @@ export default function Home() {
       {/* Generating/Loading State */}
       {appState === 'generating' && (
         <div className="relative z-10 flex flex-col items-center justify-center w-full animate-fade-in-slow">
-          <div className="relative flex items-center justify-center mb-12">
-            <div className="absolute w-24 h-24 border-t border-[#D4A5A5]/40 rounded-full animate-spin" style={{ animationDuration: '3s' }}></div>
-            <div className="absolute w-16 h-16 border-b border-[#8E6A6A]/40 rounded-full animate-spin" style={{ animationDuration: '2s', animationDirection: 'reverse' }}></div>
-            <div className="w-2 h-2 rounded-full bg-[#D4A5A5] shadow-[0_0_15px_3px_rgba(212,165,165,0.5)] animate-pulse"></div>
+          <div className="relative flex items-center justify-center mb-16">
+            <div className="absolute w-28 h-28 border-t border-[#D4A5A5]/40 rounded-full animate-spin" style={{ animationDuration: '3.5s' }}></div>
+            <div className="absolute w-20 h-20 border-b border-[#8E6A6A]/40 rounded-full animate-spin" style={{ animationDuration: '2.5s', animationDirection: 'reverse' }}></div>
+            <div className="w-2.5 h-2.5 rounded-full bg-[#D4A5A5] shadow-[0_0_20px_4px_rgba(212,165,165,0.6)] animate-pulse" style={{ animationDuration: '2s' }}></div>
           </div>
           
-          <div className="h-12 relative overflow-hidden flex items-center justify-center w-full">
-            <p key={loadingIndex} className="absolute text-[#F6EDEE]/80 font-serif italic text-xl sm:text-2xl animate-fade-in tracking-wide" style={{ animationDuration: '0.8s' }}>
+          <div className="h-12 relative overflow-hidden flex items-center justify-center w-full max-w-md">
+            <p key={loadingIndex} className="absolute text-[#F6EDEE]/90 font-serif italic text-xl sm:text-2xl animate-fade-in tracking-wide text-center w-full" style={{ animationDuration: '0.8s' }}>
               {loadingMessages[loadingIndex]}
             </p>
           </div>
