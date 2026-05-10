@@ -208,17 +208,48 @@ export default function ExportStoryStatic({ metrics }: Props) {
         alignItems: "flex-start",
         alignContent: "flex-start",
       }}>
-        {/* ── Two featured cards (full width) ── */}
-        <StatCard
-          featured
-          value={metrics.cookingYears.toLocaleString()}
-          label="Years Spent Cooking"
-        />
-        <StatCard
-          featured
-          value={metrics.mealsPrepared.toLocaleString()}
-          label="Meals Prepared"
-        />
+        {/* ── Hero stat: Years Spent Cooking ── */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "36px 24px 30px",
+            background: "#0E0808",
+            border: `1px solid ${ROSE_DIM}66`,
+            borderRadius: "20px",
+            boxSizing: "border-box",
+            flex: "0 0 100%",
+            boxShadow: "inset 0 0 60px rgba(212,165,165,0.04)",
+          }}
+        >
+          {/* Eyebrow */}
+          <span style={{
+            fontFamily: FONT_UI, fontWeight: 500, fontSize: "12px",
+            letterSpacing: "5px", textTransform: "uppercase",
+            color: `${ROSE}80`, marginBottom: "14px", display: "block", textAlign: "center",
+          }}>
+            Emotional Centrepiece
+          </span>
+          <span style={{
+            fontFamily: FONT_UI, fontWeight: 700, fontSize: "108px",
+            lineHeight: 1, letterSpacing: "-3px",
+            color: ROSE, display: "block", textAlign: "center",
+          }}>
+            {metrics.cookingYears.toLocaleString()}
+          </span>
+          <span style={{
+            fontFamily: FONT_UI, fontWeight: 500, fontSize: "14px",
+            letterSpacing: "5px", textTransform: "uppercase",
+            color: ROSE_DIM, marginTop: "14px", display: "block", textAlign: "center",
+          }}>
+            Years Spent Cooking
+          </span>
+        </div>
+
+        {/* ── Second featured: Meals Prepared ── */}
+        <StatCard featured value={metrics.mealsPrepared.toLocaleString()} label="Meals Prepared" />
 
         {/* ── 8 supporting stats (2-column grid) ── */}
         <StatCard value={metrics.totalCareHours.toLocaleString()}  label="Total Care Hours"    />

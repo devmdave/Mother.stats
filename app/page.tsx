@@ -113,18 +113,20 @@ export default function Home() {
   };
 
   // Metrics-derived stat blocks (for report grid)
+  // `climax`   — full-width solo card with massive typography + rose glow (emotional centrepiece)
+  // `highlight` — full-width card, large but secondary
   const stats = metrics
     ? [
-        { value: metrics.totalCareHours.toLocaleString(),  label: "Total Care Hours",   subtitle: "The invisible shift that never ends.",          highlight: true },
-        { value: metrics.mealsPrepared.toLocaleString(),   label: "Meals Prepared",     subtitle: "Across two decades of mornings and nights." },
-        { value: metrics.hoursSpentCooking.toLocaleString(),label: "Hours Cooking",     subtitle: "Standing quietly at the stove." },
-        { value: metrics.lunchesPacked.toLocaleString(),   label: "Lunchboxes Packed",  subtitle: "Notes folded before the sun rose." },
-        { value: metrics.schoolPickupsDrops.toLocaleString(),label: "School Trips",     subtitle: "Waiting faithfully in the car line." },
-        { value: metrics.clothesWashed.toLocaleString(),   label: "Laundry Loads",      subtitle: "Washing, folding, repeating." },
-        { value: metrics.groceryTrips.toLocaleString(),    label: "Grocery Trips",      subtitle: "Carrying the weight of the week." },
-        { value: metrics.teaCups.toLocaleString(),         label: "Cups of Tea",        subtitle: "Quiet moments of warmth shared." },
-        { value: metrics.kitchenDays.toLocaleString(),     label: "Days in Kitchen",    subtitle: "Time measured entirely in recipes." },
-        { value: metrics.cookingYears.toLocaleString(),    label: "Years of Cooking",   subtitle: "A fraction of a life, freely given.",           highlight: true },
+        { value: metrics.cookingYears.toLocaleString(),       label: "Years of Cooking",   subtitle: "An entire life season, quietly given.",           climax: true },
+        { value: metrics.totalCareHours.toLocaleString(),     label: "Total Care Hours",   subtitle: "The invisible shift that never ends.",            highlight: true },
+        { value: metrics.mealsPrepared.toLocaleString(),      label: "Meals Prepared",     subtitle: "Across two decades of mornings and nights." },
+        { value: metrics.hoursSpentCooking.toLocaleString(),  label: "Hours Cooking",      subtitle: "Standing quietly at the stove." },
+        { value: metrics.kitchenDays.toLocaleString(),        label: "Kitchen Days",       subtitle: "Time measured entirely in recipes." },
+        { value: metrics.lunchesPacked.toLocaleString(),      label: "Lunchboxes Packed",  subtitle: "Notes folded before the sun rose." },
+        { value: metrics.schoolPickupsDrops.toLocaleString(), label: "School Trips",       subtitle: "Waiting faithfully in the car line." },
+        { value: metrics.clothesWashed.toLocaleString(),      label: "Laundry Loads",      subtitle: "Washing, folding, repeating." },
+        { value: metrics.groceryTrips.toLocaleString(),       label: "Grocery Trips",      subtitle: "Carrying the weight of the week." },
+        { value: metrics.teaCups.toLocaleString(),            label: "Cups of Tea",        subtitle: "Quiet moments of warmth shared." },
       ]
     : [];
 
@@ -298,31 +300,69 @@ export default function Home() {
 
           {/* Stats grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-14 lg:gap-20 w-full max-w-[90rem] mx-auto px-6 md:px-12 mb-40">
-            {stats.map((stat, idx) => (
-              <div
-                key={idx}
-                className={`animate-slide-up-fade opacity-0 flex flex-col items-center justify-center p-12 sm:p-20 rounded-[2.5rem] bg-[#141010]/60 border border-[#8E6A6A]/10 md:hover:bg-[#141010]/90 md:hover:border-[#D4A5A5]/20 transition-colors duration-500 group hw-accel ${
-                  stat.highlight ? "md:col-span-2 lg:col-span-3 py-24 sm:py-32" : ""
-                }`}
-                style={{ animationDelay: `${200 + idx * 100}ms` }}
-              >
-                <h2
-                  className={`font-sans font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#F6EDEE] to-[#8E6A6A]/70 tracking-tighter leading-[0.85] mb-8 text-center transition-transform duration-700 ease-out md:group-hover:scale-[1.03] will-change-transform ${
-                    stat.highlight
-                      ? "text-8xl sm:text-9xl md:text-[11rem] lg:text-[13rem]"
-                      : "text-7xl sm:text-8xl lg:text-9xl"
+            {stats.map((stat, idx) => {
+              const isClimax    = !!(stat as any).climax;
+              const isHighlight = !!(stat as any).highlight;
+              return (
+                <div
+                  key={idx}
+                  className={`animate-slide-up-fade opacity-0 flex flex-col items-center justify-center rounded-[2.5rem] transition-colors duration-500 group hw-accel ${
+                    isClimax
+                      ? "col-span-1 md:col-span-2 lg:col-span-3 py-28 sm:py-40 px-12 sm:px-20 bg-[#120808]/80 border border-[#D4A5A5]/20 md:hover:border-[#D4A5A5]/40"
+                      : isHighlight
+                      ? "md:col-span-2 lg:col-span-3 py-20 sm:py-28 px-12 sm:px-20 bg-[#141010]/60 border border-[#8E6A6A]/10 md:hover:bg-[#141010]/90 md:hover:border-[#D4A5A5]/20"
+                      : "p-10 sm:p-16 bg-[#141010]/60 border border-[#8E6A6A]/10 md:hover:bg-[#141010]/90 md:hover:border-[#D4A5A5]/20"
                   }`}
+                  style={{
+                    animationDelay: `${200 + idx * 100}ms`,
+                    // Climax card gets a very subtle rose bloom shadow
+                    boxShadow: isClimax ? "0 0 80px rgba(212,165,165,0.06) inset" : undefined,
+                  }}
                 >
-                  {stat.value}
-                </h2>
-                <h3 className="text-xs sm:text-sm tracking-[0.4em] uppercase text-[#D4A5A5] font-sans font-medium mb-5 text-center opacity-90">
-                  {stat.label}
-                </h3>
-                <p className="text-base sm:text-lg font-serif italic text-[#8E6A6A]/90 font-light max-w-sm text-center tracking-wide leading-relaxed">
-                  {stat.subtitle}
-                </p>
-              </div>
-            ))}
+                  {/* Climax ambient glow behind number */}
+                  {isClimax && (
+                    <div className="absolute w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] bg-[radial-gradient(circle,rgba(212,165,165,0.07)_0%,transparent_60%)] pointer-events-none -z-10" />
+                  )}
+
+                  {/* Eyebrow for climax */}
+                  {isClimax && (
+                    <p className="text-[10px] sm:text-xs tracking-[0.5em] uppercase text-[#D4A5A5]/60 font-sans font-medium mb-8 text-center">
+                      Emotional Centrepiece
+                    </p>
+                  )}
+
+                  <h2
+                    className={`font-sans font-bold tracking-tighter leading-[0.85] mb-6 text-center transition-transform duration-700 ease-out md:group-hover:scale-[1.03] will-change-transform ${
+                      isClimax
+                        ? "text-[10rem] sm:text-[13rem] md:text-[16rem] lg:text-[18rem] text-[#D4A5A5]"
+                        : isHighlight
+                        ? "text-8xl sm:text-9xl md:text-[11rem] lg:text-[13rem] text-transparent bg-clip-text bg-gradient-to-b from-[#F6EDEE] to-[#8E6A6A]/70"
+                        : "text-6xl sm:text-7xl lg:text-8xl text-transparent bg-clip-text bg-gradient-to-b from-[#F6EDEE] to-[#8E6A6A]/70"
+                    }`}
+                  >
+                    {stat.value}
+                  </h2>
+                  <h3
+                    className={`tracking-[0.4em] uppercase font-sans font-medium mb-4 text-center ${
+                      isClimax
+                        ? "text-sm sm:text-base text-[#D4A5A5] opacity-100"
+                        : "text-xs sm:text-sm text-[#D4A5A5] opacity-90"
+                    }`}
+                  >
+                    {stat.label}
+                  </h3>
+                  <p
+                    className={`font-serif italic font-light text-center tracking-wide leading-relaxed ${
+                      isClimax
+                        ? "text-lg sm:text-xl text-[#8E6A6A] max-w-lg"
+                        : "text-base sm:text-lg text-[#8E6A6A]/90 max-w-sm"
+                    }`}
+                  >
+                    {stat.subtitle}
+                  </p>
+                </div>
+              );
+            })}
           </div>
 
           {/* Emotional ending */}
