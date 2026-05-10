@@ -1,15 +1,18 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #000000;
-  --color-foreground: #ffffff;
+  --color-background: #070707;
+  --color-foreground: #F6EDEE;
+  --color-surface: #141010;
+  --color-rose-accent: #D4A5A5;
+  --color-rose-secondary: #8E6A6A;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
 }
 
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
+  --background: #070707;
+  --foreground: #F6EDEE;
 }
 
 body {
@@ -18,7 +21,7 @@ body {
   font-family: var(--font-sans);
 }
 
-/* Background grain effect */
+/* Background grain effect - keeping it subtle */
 .bg-grain {
   position: fixed;
   top: 0;
@@ -27,7 +30,7 @@ body {
   height: 100vh;
   pointer-events: none;
   z-index: 50;
-  opacity: 0.04;
+  opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
@@ -43,8 +46,8 @@ body {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { opacity: 0.4; transform: scale(1); filter: blur(60px); }
-  50% { opacity: 0.7; transform: scale(1.1); filter: blur(80px); }
+  0%, 100% { opacity: 0.3; transform: scale(1); filter: blur(60px); }
+  50% { opacity: 0.5; transform: scale(1.05); filter: blur(80px); }
 }
 
 @keyframes float {
@@ -65,7 +68,7 @@ body {
 }
 
 .animate-pulse-glow {
-  animation: pulse-glow 8s ease-in-out infinite;
+  animation: pulse-glow 12s ease-in-out infinite;
 }
 
 .animate-float {
@@ -77,8 +80,3 @@ body {
 .delay-500 { animation-delay: 500ms; }
 .delay-700 { animation-delay: 700ms; }
 .delay-1000 { animation-delay: 1000ms; }
-
-/* Golden glow utilities */
-.glow-gold {
-  box-shadow: 0 0 40px -10px rgba(212, 175, 55, 0.4);
-}

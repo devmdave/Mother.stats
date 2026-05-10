@@ -14,7 +14,7 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "mother.stats | Quantifying invisible love",
-  description: "A cinematic analytics dashboard for mother.stats",
+  description: "A premium emotional data experience.",
 };
 
 export default function RootLayout({
@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable} dark antialiased`}>
-      <body className="bg-black text-white min-h-screen overflow-x-hidden selection:bg-amber-500/30 selection:text-amber-200">
+      <body className="bg-[#070707] text-[#F6EDEE] min-h-screen overflow-x-hidden selection:bg-[#D4A5A5]/20 selection:text-[#F6EDEE]">
         {children}
       </body>
     </html>
